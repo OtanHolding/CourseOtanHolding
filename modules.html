@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Образовательные модули</title>
+<link rel="icon" type="image/png" href="https://s14.gifyu.com/images/bN8sp.jpg">
+
+<script src="data.js"></script>
+<style>
+body {
+  background: #f7f9fc;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Header */
+header {
+  background: #1e293b;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+nav a {
+  color: #e2e8f0;
+  text-decoration: none;
+  margin-left: 20px;
+}
+nav a:hover {
+  color: #38bdf8;
+}
+
+/* Tabs */
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  padding: 20px;
+  width: 70%;
+  margin: auto;
+}
+.tab {
+  background: white;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #334155;
+  transition: all 0.2s ease;
+}
+.tab:hover {
+  background: rgb(0,0,0,0.3);
+  color: white;
+}
+
+
+.block {
+  display: none; /* скрыто изначально */
+  grid-template-columns: 35% 65%;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1300px;
+  margin: auto;
+}
+
+
+
+/* Playlist */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 750px; /* фиксируем высоту */
+  overflow-y: auto;  /* вертикальная прокрутка */
+  padding-right: 5px; /* чтобы скролл не перекрывал текст */
+}
+.grid::-webkit-scrollbar {
+  width: 6px;
+}
+.grid::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.grid::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 10px 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+  border: 2px solid transparent;
+}
+.tab{
+  font-size: 18px;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.card.active {
+  border: 2px solid #38bdf8;
+  background: #f0f9ff;
+}
+.card h3 {
+  margin: 0 0 5px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.badge {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.player {
+  height: auto; /* пусть подстраивается под контент */
+  border-radius: 8px;
+  align-self: start; /* чтобы блок прижимался к верху */
+}
+
+.player iframe {
+  background: white;
+  padding: 10px;
+  width: 100%;
+  aspect-ratio: 16/9; 
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border: 0px;
+
+}
+
+
+/* Footer */
+footer {
+  background: #1e293b;
+  color: #94a3b8;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  margin-top: 30px;
+}
+.video-title {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+}
+main{
+  height: 100vh;
+  align-content: center;
+}
+.module-title{
+  margin: 0px;
+}
+.video-title{
+  margin-bottom: 20px;
+}
+
+
+@media (max-width: 900px) {
+  .block {
+    grid-template-columns: 1fr;
+  }
+  .player {
+    margin-left: -10px;
+    height: auto;
+    order: -1; /* Переносим плеер наверх */
+    margin-top: 0px;
+  }
+  
+  .tabs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  main{
+    height: 100vh;
+    align-content: center;
+  }
+  .tabs{
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: 16px;
+  }
+  .grid{
+    height: 500px;
+  }
+  .module-title{
+    margin: 0px;
+  }
+  .video-title{
+    margin-bottom: 20px;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>OtanHolding</h1>
+  <nav>
+    <a href="index.html">Главная</a>
+  </nav>
+</header>
+
+<main>
+  <div id="tabs" class="tabs"></div>
+
+  <div class="block">
+    <div>
+      <div id="grid" class="grid"></div>
+    </div>
+
+    <div class="player">
+      <h2 id="moduleTitle" class="module-title"></h2>
+      <div id="videoTitle" class="video-title"></div>
+      <iframe id="videoPlayer" allowfullscreen></iframe>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 Шынар Сайын — Образовательная платформа. Все права защищены.
+</footer>
+
+<script>
+const tabsEl = document.getElementById('tabs');
+const gridEl = document.getElementById('grid');
+const videoPlayer = document.getElementById('videoPlayer');
+const blockEl = document.querySelector('.block');
+const headerEl = document.querySelector('header');
+
+let currentSection = Object.keys(data)[0] || '';
+let currentVideo = '';
+let backBtn = null; // кнопка возврата
+
+function renderTabs(){
+  tabsEl.innerHTML = '';
+  Object.keys(data).forEach(section=>{
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (section === currentSection ? ' active' : '');
+
+    // Картинка модуля
+    const imgEl = document.createElement('img');
+    imgEl.src = data[section].img;
+    imgEl.style.width = '100%';
+    imgEl.style.objectFit = 'cover';
+    imgEl.style.borderRadius = '6px';
+    btn.appendChild(imgEl);
+
+    const textEl = document.createElement('div');
+    textEl.textContent = section;
+    textEl.style.marginTop = '5px';
+    btn.appendChild(textEl);
+
+    btn.addEventListener('click', ()=>{
+      currentSection = section;
+      loadSection();
+      renderTabs();
+      showModuleView();
+    });
+
+    tabsEl.appendChild(btn);
+  });
+}
+
+
+function loadSection(){
+  const moduleData = data[currentSection];
+  const items = moduleData.videos || [];
+  
+  // Заголовок модуля
+  document.getElementById('moduleTitle').textContent = currentSection;
+
+  // Показываем первую видеозапись
+  if(items.length > 0){
+    currentVideo = items[0].url;
+    videoPlayer.src = currentVideo;
+    document.getElementById('videoTitle').textContent = 'Урок: ' + (items[0].title || '');
+  } else {
+    currentVideo = '';
+    videoPlayer.src = '';
+    document.getElementById('videoTitle').textContent = '';
+  }
+
+  renderGrid(items);
+}
+
+function renderGrid(items){
+  gridEl.innerHTML = '';
+  items.forEach((it, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'card' + (it.url === currentVideo ? ' active' : '');
+    card.addEventListener('click', ()=>{
+      currentVideo = it.url;
+      videoPlayer.src = currentVideo;
+      document.getElementById('videoTitle').textContent = 'Урок ' + (idx+1) + ': ' + (it.title || '');
+      renderGrid(items);
+    });
+
+    const titleBadge = document.createElement('span');
+    titleBadge.className = 'badge';
+    titleBadge.textContent = (idx+1) + '. ' + (it.title || ('Видео ' + (idx+1)));
+    card.appendChild(titleBadge);
+
+    gridEl.appendChild(card);
+  });
+}
+
+
+// --- Новый функционал ---
+function showModuleView(){
+  tabsEl.style.display = 'none';
+  blockEl.style.display = 'grid';
+  
+  // Добавляем кнопку "Модули" в header, если её нет
+  if(!backBtn){
+    backBtn = document.createElement('a');
+    backBtn.href = '#';
+    backBtn.textContent = 'Модули';
+    backBtn.style.marginLeft = '20px';
+    backBtn.style.color = '#38bdf8';
+    backBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      showTabsView();
+    });
+    headerEl.querySelector('nav').appendChild(backBtn);
+  }
+}
+
+function showTabsView(){
+  tabsEl.style.display = 'grid';
+  blockEl.style.display = 'none';
+  if(backBtn){
+    backBtn.remove();
+    backBtn = null;
+  }
+}
+
+renderTabs();
+loadSection();
+
+</script>
+</body>
+</html>
